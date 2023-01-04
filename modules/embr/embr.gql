@@ -1,0 +1,77 @@
+extend type Query {
+    embrGetProtocolData: GqlEmbrProtocolData!
+    embrGetEmbrFarms: [GqlEmbrFarm!]!
+    embrGetUserDataForFarm(farmId: String!): GqlEmbrFarmUser
+    embrGetUserDataForAllFarms: [GqlEmbrFarmUser!]!
+    embrGetConfig: GqlEmbrConfig!
+}
+
+type GqlEmbrProtocolData {
+    totalLiquidity: BigDecimal!
+    totalSwapVolume: BigDecimal!
+    totalSwapFee: BigDecimal!
+    poolCount: BigInt!
+    embrPrice: BigDecimal!
+    circulatingSupply: BigDecimal!
+    marketCap: BigDecimal!
+    swapFee24h: BigDecimal!
+    swapVolume24h: BigDecimal!
+}
+
+type GqlEmbrFarm {
+    id: ID!
+    pair: Bytes!
+    allocPoint: Int!
+    slpBalance: BigInt!
+    userCount: BigInt!
+    block: BigInt!
+    lastRewardBlock: BigInt!
+    timestamp: BigInt!
+    masterChef: GqlEmbrMasterChef!
+}
+
+type GqlEmbrMasterChef {
+    id: ID!
+    embrPerSec: BigInt!
+    totalAllocPoint: Int!
+}
+
+type GqlEmbrFarmUser {
+    id: ID!
+    address: Bytes!
+    amount: BigInt!
+    embrHarvested: BigInt!
+    farmId: ID!
+    rewardDebt: BigInt!
+    timestamp: BigInt!
+}
+
+type GqlEmbrConfig {
+    incentivizedPools: [String!]!
+    pausedPools: [String!]!
+    blacklistedPools: [String!]!
+    featuredPools: [String!]!
+    homeFeaturedPools: [GqlEmbrConfigFeaturedPool!]!
+    homeNewsItems: [GqlEmbrConfigNewsItem!]!
+    poolFilters: [GqlEmbrConfigPoolFilterItem!]!
+}
+
+type GqlEmbrConfigFeaturedPool {
+    poolId: String!
+    image: String!
+    description: String
+}
+
+type GqlEmbrConfigNewsItem {
+    title: String!
+    image: String!
+    publishDate: String!
+    url: String!
+    description: String!
+}
+
+type GqlEmbrConfigPoolFilterItem {
+    id: ID!
+    title: String!
+    pools: [String!]!
+}
